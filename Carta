@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz San Valentín</title>
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #ff69b4; /* Fondo rosa */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #fff;
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Flores animadas */
+        .flores {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1; /* Detrás de los pop-ups */
+        }
+
+        .flor {
+            position: absolute;
+            font-size: 3rem;
+            animation: caer 10s linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes caer {
+            0% {
+                transform: translateY(-10%);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(110vh);
+                opacity: 1;
+            }
+        }
+
+        /* Contenedor principal */
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            z-index: 2; /* Delante de las flores */
+        }
+
+        /* Título */
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #ff0000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        /* Mensaje no editable */
+        .mensaje {
+            width: 100%;
+            height: 190px;
+            padding: 1px;
+            font-family: 'Arial', sans-serif;
+            font-size: 1.3rem;
+            border: 3px solid #d6336c;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            color: #d6336c;
+            background: rgba(255, 255, 255, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Botones */
+        .botones {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        button {
+            font-family: 'Arial', sans-serif;
+            font-size: 1rem;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #btnSi {
+            background-color: #d6336c;
+            color: white;
+        }
+
+        #btnSi:hover {
+            background-color: #b32b5a;
+            transform: scale(1.1);
+        }
+
+        #btnNo {
+            background-color: #f8bbd0;
+            color: #d6336c;
+        }
+
+        #btnNo:hover {
+            background-color: #f48fb1;
+            transform: scale(1.1);
+        }
+
+        /* Pop-up personalizado */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000; /* Delante de todo */
+        }
+
+        .popup-contenido {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .popup-contenido h2 {
+            font-size: 2rem;
+            color: #d6336c;
+            margin-bottom: 20px;
+        }
+
+        .popup-contenido .corazon {
+            font-size: 5rem;
+            color: #ff1493;
+            margin-bottom: 20px;
+        }
+
+        .popup-contenido button {
+            background-color: #d6336c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+        }
+
+        .popup-contenido button:hover {
+            background-color: #b32b5a;
+        }
+
+        /* Pop-up "Te amo" */
+        .popup-te-amo {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000; /* Delante del pop-up inicial */
+        }
+
+        .popup-te-amo-contenido {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .popup-te-amo-contenido h2 {
+            font-size: 2rem;
+            color: #d6336c;
+            margin-bottom: 20px;
+        }
+
+        .popup-te-amo-contenido .corazon {
+            font-size: 8rem; /* Corazón más grande */
+            color: #ff1493;
+            margin-bottom: 20px;
+        }
+
+        .popup-te-amo-contenido button {
+            background-color: #d6336c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+        }
+
+        .popup-te-amo-contenido button:hover {
+            background-color: #b32b5a;
+        }
+
+        /* Corazones como fuegos artificiales */
+        .corazones-fuegos {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+            z-index: 500; /* Detrás de los pop-ups */
+        }
+
+        .corazon-fuego {
+            position: absolute;
+            font-size: 4rem; /* Más grandes */
+            animation: explotar 1s ease-out forwards;
+        }
+
+        @keyframes explotar {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="flores">
+        <!-- Flores animadas -->
+        <div class="flor" style="left: 5%; animation-delay: 0s; animation-duration: 8s;">🌸</div>
+        <div class="flor" style="left: 15%; animation-delay: 2s; animation-duration: 10s;">🌺</div>
+        <div class="flor" style="left: 25%; animation-delay: 4s; animation-duration: 12s;">🌻</div>
+        <div class="flor" style="left: 35%; animation-delay: 6s; animation-duration: 9s;">🌼</div>
+        <div class="flor" style="left: 45%; animation-delay: 8s; animation-duration: 11s;">🌷</div>
+        <div class="flor" style="left: 55%; animation-delay: 1s; animation-duration: 7s;">🌸</div>
+        <div class="flor" style="left: 65%; animation-delay: 3s; animation-duration: 10s;">🌺</div>
+        <div class="flor" style="left: 75%; animation-delay: 5s; animation-duration: 8s;">🌻</div>
+        <div class="flor" style="left: 85%; animation-delay: 7s; animation-duration: 12s;">🌼</div>
+        <div class="flor" style="left: 95%; animation-delay: 9s; animation-duration: 9s;">🌷</div>
+    </div>
+
+    <div class="container">
+        <h1>😍 ¿QUIERES SER MI VALENTIN? 😍 </h1>
+        <div class="mensaje">Hola, mi amor 💖
+          En este día tan especial, quiero dedicarte este pequeño programita que he creado con todo mi cariño. Cada línea de código, cada detalle, están hechos pensando en ti. Eres lo más importante en mi vida, mi razón de ser y mi mayor inspiración.
+Feliz San Valentín, mi amor💖</div>
+        <div class="botones">
+            <button id="btnSi">¡Sí!</button>
+            <button id="btnNo">No</button>
+        </div>
+    </div>
+
+    <!-- Pop-up personalizado -->
+    <div class="popup" id="popup">
+        <div class="popup-contenido">
+            <div class="corazon">💖</div>
+            <h2>¡Yay! Sabía que dirías que sí</h2>
+            <button id="btnCerrar">Cerrar</button>
+        </div>
+    </div>
+
+    <!-- Pop-up "Te amo" -->
+    <div class="popup-te-amo" id="popupTeAmo">
+        <div class="popup-te-amo-contenido">
+            <div class="corazon">💖</div>
+            <h2>¡Te amo!</h2>
+            <button id="btnCerrarTeAmo">Cerrar</button>
+        </div>
+    </div>
+
+    <!-- Corazones como fuegos artificiales -->
+    <div class="corazones-fuegos" id="corazonesFuegos"></div>
+
+    <script>
+        // Seleccionar los botones
+        const btnSi = document.getElementById('btnSi');
+        const btnNo = document.getElementById('btnNo');
+        const btnCerrar = document.getElementById('btnCerrar');
+        const btnCerrarTeAmo = document.getElementById('btnCerrarTeAmo');
+        const popup = document.getElementById('popup');
+        const popupTeAmo = document.getElementById('popupTeAmo');
+        const corazonesFuegos = document.getElementById('corazonesFuegos');
+        const flores = document.querySelector('.flores');
+
+        // Función para mover el botón "No" aleatoriamente
+        btnNo.addEventListener('mouseover', () => {
+            const randomX = Math.floor(Math.random() * (window.innerWidth - 100));
+            const randomY = Math.floor(Math.random() * (window.innerHeight - 50));
+            btnNo.style.position = 'absolute';
+            btnNo.style.left = `${randomX}px`;
+            btnNo.style.top = `${randomY}px`;
+        });
+
+        // Función para mostrar el pop-up y los corazones como fuegos artificiales
+        btnSi.addEventListener('click', () => {
+            popup.style.display = 'flex';
+            flores.style.display = 'none'; // Desactivar el fondo de flores
+            corazonesFuegos.style.display = 'flex';
+
+            // Coordenadas para formar un corazón
+            const coordenadasCorazon = [
+                { x: 50, y: 20 },
+                { x: 40, y: 30 },
+                { x: 30, y: 40 },
+                { x: 20, y: 50 },
+                { x: 30, y: 60 },
+                { x: 40, y: 70 },
+                { x: 50, y: 80 },
+                { x: 60, y: 70 },
+                { x: 70, y: 60 },
+                { x: 80, y: 50 },
+                { x: 70, y: 40 },
+                { x: 60, y: 30 },
+            ];
+
+            let indice = 0;
+
+            // Función para mostrar corazones uno por uno
+            const mostrarCorazon = () => {
+                if (indice < coordenadasCorazon.length) {
+                    const coord = coordenadasCorazon[indice];
+                    const corazon = document.createElement('div');
+                    corazon.classList.add('corazon-fuego');
+                    corazon.innerHTML = '💖';
+                    corazon.style.left = `${coord.x}%`;
+                    corazon.style.top = `${coord.y}%`;
+                    corazonesFuegos.appendChild(corazon);
+
+                    // Eliminar el corazón después de la animación
+                    setTimeout(() => {
+                        corazon.remove();
+                    }, 1000); // 1000 ms = 1 segundo
+
+                    indice++;
+                    setTimeout(mostrarCorazon, 1000); // Mostrar el siguiente corazón en 1 segundo
+                }
+            };
+
+            // Iniciar la secuencia de corazones
+            mostrarCorazon();
+
+            // Restaurar la normalidad después de un minuto
+            setTimeout(() => {
+                popup.style.display = 'none';
+                corazonesFuegos.style.display = 'none';
+                flores.style.display = 'block'; // Reactivar el fondo de flores
+                corazonesFuegos.innerHTML = ''; // Limpiar los corazones
+            }, 6000); // 60000 ms = 1 minuto
+        });
+
+        // Función para cerrar el pop-up y mostrar el pop-up "Te amo"
+        btnCerrar.addEventListener('click', () => {
+            popup.style.display = 'none';
+            popupTeAmo.style.display = 'flex';
+        });
+
+        // Función para cerrar el pop-up "Te amo"
+        btnCerrarTeAmo.addEventListener('click', () => {
+            popupTeAmo.style.display = 'none';
+        });
+
+        // Función para cuando el usuario hace clic en "No" (aunque no se quedará quieto)
+        btnNo.addEventListener('click', () => {
+            alert('¡Oh no! ¡Intenta de nuevo! 😢');
+        });
+    </script>
+</body>
+</html>
